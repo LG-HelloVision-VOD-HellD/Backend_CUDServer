@@ -8,6 +8,9 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 COPY ./app /code/app
 
+RUN apt-get update && \
+    apt-get install -y git
+    
 RUN pip install -r /code/requirements.txt
 
 WORKDIR /code/app
