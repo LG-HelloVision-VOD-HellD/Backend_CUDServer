@@ -31,8 +31,8 @@ class BERTClassifier(nn.Module):
 
 # 모델 불러오기
 
-#model_path = load_model_s3()
-model_path = './.model/model_state_dict.pt'
+model_path = load_model_s3()
+#model_path = './.model/model_state_dict.pt'
 classifier_model = BERTClassifier(model).to(device)
 classifier_model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
 classifier_model.eval()
