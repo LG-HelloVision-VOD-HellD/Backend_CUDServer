@@ -43,21 +43,6 @@ def select_Spotify_accesstoken(user_id):
     )
     return access_token
 
-'''def vodlist_match_useremotion(user_id) -> dict:
-
-    # 사용자의 감정에 맞는 VOD 목록 검색
-    join_condition = VOD.EMOTION == SPOTIFY.EMOTION
-
-    subquery = session_maker.query(SPOTIFY.EMOTION).filter(SPOTIFY.USER_ID == user_id).scalar()
-
-    query = (
-        select(VOD.TITLE, VOD.VOD_ID, VOD.POSTER_URL)
-        .where(VOD.EMOTION == subquery)
-        .select_from(join(VOD, SPOTIFY, join_condition))
-    )
-    vod_list = session_maker.execute(query).fetchall()
-    print(vod_list)
-    return vod_list'''
 def vodlist_match_useremotion(user_id) -> str:
     # 사용자의 감정에 맞는 VOD 목록 검색
     join_condition = VOD.EMOTION == SPOTIFY.EMOTION
@@ -79,20 +64,23 @@ def vodlist_match_useremotion(user_id) -> str:
             'VOD_ID': row[1],
             'POSTER_URL': row[2]
         })
+    data = {
+        'status' : True,
+        'response' : formatted_results
+    }
 
     # JSON 직렬화
-    json_results = json.dumps(formatted_results)
-    print(json_results)
-    return json_results
+    '''json_results = json.dumps(formatted_results)
+    print(json_results)'''
+    return data
 
-def update_refreshtoken(user_id, access_token, refresh_token, expires_at):
+def update_refreshtoken(user_id, access_token, expires_at):
     session_maker.execute(
         update(SPOTIFY)
         .where(SPOTIFY.USER_ID == user_id)
         .values(
             {
                 SPOTIFY.ACCESS_TOKEN : access_token,
-                SPOTIFY.REFRESH_TOKEN : refresh_token,
                 SPOTIFY.EXPIRE_DATE : expires_at
             }
         )

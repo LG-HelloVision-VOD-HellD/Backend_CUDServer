@@ -8,8 +8,8 @@ engine = engineconn()
 session_maker = engine.sessionmaker()
 router = APIRouter(prefix='/search')
 
-@router.post('/')
-async def login(keyword: str):
+@router.get('/{keyword}')
+async def search(keyword: str):
     if keyword:
         vod_title_list = session_maker.execute(
             select(VOD.TITLE, VOD.VOD_ID).

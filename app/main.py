@@ -7,11 +7,12 @@ from datetime import datetime
 from spotify_api import get_playlist
 from predict_emotion import predict_emotion
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
 import requests
 from DB.database import engineconn
 from CRUD.spotify import *
 from routers.login import router as login_router
-from routers.signup import router as signup_router
+from routers.user_info import router as userinfo_router
 from routers.mainpage import router as mainpage_router
 from routers.search import router as search_router
 import uvicorn
@@ -21,6 +22,9 @@ session_maker = engine.sessionmaker()
 
 dic = {'1':''}
 app = FastAPI()
+
+
+
 app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
 app.add_middleware(
     CORSMiddleware,
@@ -31,9 +35,17 @@ app.add_middleware(
 )
 
 app.include_router(login_router)
-app.include_router(signup_router)
+app.include_router(userinfo_router)
 app.include_router(mainpage_router)
 app.include_router(search_router)
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=400,
+        content={'error': 'UNPROCESSABLE_ENTITY', 'details': 'error'},
+    )
+
 emotion_test = ''
 @app.get('/')
 async def index():
@@ -45,9 +57,9 @@ async def callback(request: Request):
 
 
 
-@app.get('/refresh-token')
+'''@app.get('/refresh-token')
 def refresh_token(request: Request):
     return refresh_access_token(request)
-
+'''
 if __name__ == "__main__":
     uvicorn.run("main:app", host='127.0.0.1', port=8000, reload=True)

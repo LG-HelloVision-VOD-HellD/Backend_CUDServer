@@ -10,7 +10,7 @@ from routers.mainpage import get_deque
 
 d = get_deque()
 
-def login(request: Request) -> RedirectResponse:
+def login() -> RedirectResponse:
     #session = request.session
     #if session.get('access_token'):
     #    return RedirectResponse('/me') 
@@ -18,11 +18,11 @@ def login(request: Request) -> RedirectResponse:
     auth_url = get_auth_url(scope)
     #auth_url = json.load(auth_url)
 
-    return JSONResponse(auth_url)
+    return auth_url
 
 def handle_callback(request: Request) -> RedirectResponse:
     if 'error' in request.query_params:
-        return JSONResponse({"error": request.query_params['error']})
+        return JSONResponse({"error": request.query_params['error']}) 
     if 'code' in request.query_params:
         token_info = get_token_info(request.query_params['code'])
         expires_at = datetime.now().timestamp() + token_info['expires_in']
@@ -40,9 +40,8 @@ def refresh_access_token(user_info:dict) -> RedirectResponse:
         print(user_info['REFRESH_TOKEN'])
         new_token_info = use_refresh_token(user_info['REFRESH_TOKEN'])
         print(new_token_info)
-        access_token= new_token_info['access_token']
-        refresh_token = new_token_info['refresh_token']
-        expire_date= datetime.now().timestamp() + new_token_info['expires_in']
+        user_info['ACCESS_TOKEN'] = new_token_info['access_token']
+        user_info['EXPIRE_DATE']= datetime.now().timestamp() + new_token_info['expires_in']
         user_id = user_info['USER_ID']
-        update_refreshtoken(user_id, access_token, refresh_token, expire_date)
-        return RedirectResponse(f'/mainpage/spotify/{user_id}/userinfo')
+        update_refreshtoken(user_id, user_info['ACCESS_TOKEN'], user_info['EXPIRE_DATE'])
+        return user_info
