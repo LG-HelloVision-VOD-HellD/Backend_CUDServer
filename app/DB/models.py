@@ -51,16 +51,46 @@ class SPOTIFY(Base):
             "EXPIRE_DATE": self.EXPIRE_DATE,
             "EMOTION": self.EMOTION
         }
-
+    
 class VOD(Base):
     __tablename__ = "VOD"
-    VOD_ID = Column(INT, nullable = False, autoincrement = True, primary_key = True)
-    SUB_CATEGORY = Column(VARCHAR(5), nullable = True)
-    TITLE = Column(VARCHAR(100), nullable = True)
+    VOD_ID = Column(INT, autoincrement= True, nullable = False, primary_key= True)
+    CONTENT_ID = Column(INT, nullable = False)
+    SUB_CATEGORY = Column(VARCHAR(255), nullable = True)
+    TITLE = Column(VARCHAR(255), nullable=False)
+
+
+class MOVIES(Base):
+    __tablename__ = "MOVIES"
+    MOVIE_ID = Column(INT, nullable = False, primary_key = True)
+    SUB_CATEGORY = Column(VARCHAR(10), nullable = False)
+    TITLE = Column(VARCHAR(255), nullable = False)
     GENRE = Column(VARCHAR(10), nullable = True)
-    SERIES_NUM = Column(INT, nullable = True)
-    CONTENT_SUM = Column(VARCHAR(200), nullable = True)
+    RELEASE_DATE = Column(DATE, nullable = True)
+    RATING = Column(INT, nullable = True)
+    MOVIE_OVERVIEW = Column(TEXT, nullable = True)
     EMOTION = Column(VARCHAR(10), nullable = True)
+    CAST = Column(VARCHAR(20), nullable = True)
+    CREW = Column(TEXT, nullable = True)
+    POSTER = Column(VARCHAR(255), nullable = True)
+    TRAILER = Column(VARCHAR(255), nullable = True)
+    LOGO = Column(VARCHAR(255), nullable = True)
+    RTM = Column(INT, nullable = True)
+    def to_dict(self):
+        return {
+            "VOD_ID": self.MOVIE_ID,
+            "TITLE": self.TITLE,
+            "POSTER_URL": self.POSTER
+        }
+    
+class SERIES(Base):
+    __tablename__ = "SERIES"
+    SERIES_ID = Column(INT, nullable = False, primary_key = True)
+    SUB_CATEGORY = Column(VARCHAR(10), nullable = True)
+    TITLE = Column(VARCHAR(100), nullable = False)
+    GENRE = Column(VARCHAR(10), nullable = True)
+    SERIES_RATING = Column(INT, nullable = True) 
+    SEASON_SUM = Column(VARCHAR(10), nullable = True)
     CAST = Column(VARCHAR(20), nullable = True)
     CREW = Column(VARCHAR(20), nullable = True)
     POSTER_URL = Column(VARCHAR(255), nullable = True)
@@ -68,7 +98,29 @@ class VOD(Base):
     RTM = Column(INT, nullable = True)
     def to_dict(self):
         return {
-            "VOD_ID": self.VOD_ID,
+            "VOD_ID": self.SERIES_ID,
             "TITLE": self.TITLE,
             "POSTER_URL": self.POSTER_URL
         }
+    
+class SEASON(Base):
+    __tablename__ = "SEASON"
+    SEASON_ID = Column(INT, nullable = False, primary_key = True)
+    SERIES_ID = Column(INT, nullable = False)
+    SEASON_NAME = Column(VARCHAR(255), nullable = True)
+    SEASON_NUM = Column(VARCHAR(10), nullable = True)
+    EPISODE_COUNT = Column(INT, nullable = True)
+    AIR_DATE = Column(DATE, nullable = True)
+
+class EPISODE(Base):
+    __tablename__ = "EPISODE"
+    EPISODE_ID = Column(INT, nullable = False, primary_key= True)
+    SEASON_ID = Column(INT, nullable = False)
+    SEASON_NAME = Column(VARCHAR(255), nullable = True)
+    EPISODE_NUM = Column(INT, nullable = True)
+    EPISODE_NAME = Column(VARCHAR(255), nullable = True)
+    EPISODE_OVERVIEW = Column(TEXT, nullable = True)
+    AIR_DATE = Column(DATE, nullable = True)
+    EPISODE_RTM = Column(INT, nullable = True)
+    STILL = Column(VARCHAR(255), nullable = True)
+

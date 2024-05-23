@@ -45,7 +45,7 @@ def get_playlist(access_token):
         artist = playlist['items'][i]['track']['album']['artists'][0]['name']
         title = playlist['items'][i]['track']['name']
         audio_names[i] = {'artist': artist,
-                        'title': title}
+                        'title': title}     
     return audio_names
     
 def get_token_info(code):

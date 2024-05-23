@@ -1,5 +1,5 @@
 from DB.database import engineconn
-from DB.models import SPOTIFY, USERS, VOD
+from DB.models import SPOTIFY, USERS, MOVIES
 from sqlalchemy import *
 import json
 engine = engineconn()
@@ -45,14 +45,14 @@ def select_Spotify_accesstoken(user_id):
 
 def vodlist_match_useremotion(user_id) -> str:
     # 사용자의 감정에 맞는 VOD 목록 검색
-    join_condition = VOD.EMOTION == SPOTIFY.EMOTION
+    join_condition = MOVIES.EMOTION == SPOTIFY.EMOTION
 
     subquery = session_maker.query(SPOTIFY.EMOTION).filter(SPOTIFY.USER_ID == user_id).scalar()
 
     query = (
-        select(VOD.TITLE, VOD.VOD_ID, VOD.POSTER_URL)
-        .where(VOD.EMOTION == subquery)
-        .select_from(join(VOD, SPOTIFY, join_condition))
+        select(MOVIES.TITLE, MOVIES.MOVIE_ID, MOVIES.POSTER)
+        .where(MOVIES.EMOTION == subquery)
+        .select_from(join(MOVIES, SPOTIFY, join_condition))
     )
     vod_list = session_maker.execute(query).fetchall()
 

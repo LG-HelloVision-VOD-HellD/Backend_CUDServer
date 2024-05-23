@@ -15,6 +15,8 @@ from routers.login import router as login_router
 from routers.user_info import router as userinfo_router
 from routers.mainpage import router as mainpage_router
 from routers.search import router as search_router
+from routers.like import router as like_router
+from routers.review import router as review_router
 import uvicorn
 engine = engineconn()
 session_maker = engine.sessionmaker()
@@ -30,7 +32,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"], # 허용할 origin을 설정하세요
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -38,6 +40,10 @@ app.include_router(login_router)
 app.include_router(userinfo_router)
 app.include_router(mainpage_router)
 app.include_router(search_router)
+app.include_router(review_router)
+app.include_router(like_router)
+
+
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
