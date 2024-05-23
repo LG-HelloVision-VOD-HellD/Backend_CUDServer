@@ -10,8 +10,8 @@ def find_vodID(id, title):
         VOD_ID = session_maker.execute(
             select(VOD.VOD_ID)
             .where(VOD.CONTENT_ID == id and VOD.TITLE == title)
-        )
-        return VOD_ID   
+        ).fetchall()
+        return VOD_ID[0][0]  
     except:
         return 0
 
