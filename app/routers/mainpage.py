@@ -1,11 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from DB.models import USERS
-from DB.database import engineconn
+from app.DB.models import USERS
+from app.DB.database import engineconn
 from sqlalchemy import select
-from CRUD.spotify import check_Spotify_accesstoken, vodlist_match_useremotion, select_SpotifyInfo, update_emotion, update_spotify_status
-from spotify_api import get_playlist
-from lyrics_crawler import crawling_lyrics
-from predict_emotion import predict_emotion
+from app.CRUD.spotify import check_Spotify_accesstoken, vodlist_match_useremotion, select_SpotifyInfo, update_emotion, update_spotify_status
+from app.spotify_api import get_playlist
 from collections import deque
 from datetime import datetime
 
@@ -28,7 +26,7 @@ async def spotify_list(user_id: str):
     
     return data
 
-@router.get('/spotify/{user_id}/userinfo')
+'''@router.get('/spotify/{user_id}/userinfo')
 async def get_emotion(user_id: str):
     try:
         user_info = select_SpotifyInfo(user_id)
@@ -44,7 +42,7 @@ async def get_emotion(user_id: str):
         data = vodlist_match_useremotion(user_id)
         return data
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))'''
 
 @router.get('/youtube')
 async def youtube_list():

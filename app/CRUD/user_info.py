@@ -1,5 +1,5 @@
-from DB.database import engineconn
-from DB.models import USERS
+from app.DB.database import engineconn
+from app.DB.models import USERS
 from sqlalchemy import *
 import json
 from pydantic import BaseModel

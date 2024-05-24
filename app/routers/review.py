@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from DB.database import engineconn
+from app.DB.database import engineconn
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from CRUD.review import *
+from app.CRUD.review import *
 engine = engineconn()
 session_maker = engine.sessionmaker()
 router = APIRouter(prefix='/review')

@@ -1,20 +1,22 @@
-FROM python:3.11.2-slim
+FROM --platform=linux/amd64 python:3.10-slim-bullseye as build
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# 필수 패키지 설치
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /code
+# 작업 디렉토리 설정
+WORKDIR /usr/src
 
-COPY ./requirements.txt /code/requirements.txt
-COPY ./app /code/app
+# requirements.txt 복사 및 설치
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
-RUN apt-get update && \
-    apt-get install -y git
-    
-RUN pip install -r /code/requirements.txt
+# 전체 소스 코드 복사
+COPY . .
 
-WORKDIR /code/app
+# 포트 노출
+EXPOSE 8000
 
-EXPOSE 80
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# 컨테이너 시작 시 실행할 명령어
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

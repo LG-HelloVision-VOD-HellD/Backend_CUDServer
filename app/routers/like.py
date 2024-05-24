@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from DB.database import engineconn
+from app.DB.database import engineconn
 from fastapi.responses import JSONResponse
-from CRUD.like import *
+from app.CRUD.like import *
 
 engine = engineconn()
 session_maker = engine.sessionmaker()

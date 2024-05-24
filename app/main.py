@@ -1,22 +1,20 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
-from spotify_user import login, handle_callback, refresh_access_token
-from lyrics_crawler import crawling_lyrics
+from app.spotify_user import login, handle_callback, refresh_access_token
 from datetime import datetime
-from spotify_api import get_playlist
-from predict_emotion import predict_emotion
+from app.spotify_api import get_playlist
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 import requests
-from DB.database import engineconn
-from CRUD.spotify import *
-from routers.login import router as login_router
-from routers.user_info import router as userinfo_router
-from routers.mainpage import router as mainpage_router
-from routers.search import router as search_router
-from routers.like import router as like_router
-from routers.review import router as review_router
+from app.DB.database import engineconn
+from app.CRUD.spotify import *
+from app.routers.login import router as login_router
+from app.routers.user_info import router as userinfo_router
+from app.routers.mainpage import router as mainpage_router
+from app.routers.search import router as search_router
+from app.routers.like import router as like_router
+from app.routers.review import router as review_router
 import uvicorn
 engine = engineconn()
 session_maker = engine.sessionmaker()
@@ -30,7 +28,7 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"], # 허용할 origin을 설정하세요
+    allow_origins=["*"], # 허용할 origin을 설정하세요
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

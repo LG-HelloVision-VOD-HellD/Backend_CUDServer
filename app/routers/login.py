@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from DB.models import USERS
-from DB.database import engineconn
+from app.DB.models import USERS
+from app.DB.database import engineconn
 from sqlalchemy import select
 from fastapi.responses import JSONResponse
 

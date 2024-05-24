@@ -1,5 +1,5 @@
-from DB.database import engineconn
-from DB.models import REVIEW, VOD
+from app.DB.database import engineconn
+from app.DB.models import REVIEW, VOD
 from sqlalchemy import *
 import json
 from pydantic import BaseModel
