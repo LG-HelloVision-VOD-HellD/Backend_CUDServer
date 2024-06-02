@@ -1,7 +1,7 @@
-from DB.database import engineconn
-from DB.models import SPOTIFY, USERS, MOVIES
+from app.DB.database import engineconn
+from app.DB.models import SPOTIFY, USERS
 from sqlalchemy import *
-import json
+
 engine = engineconn()
 session_maker = engine.sessionmaker()
 

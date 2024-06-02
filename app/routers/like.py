@@ -1,13 +1,9 @@
 from fastapi import APIRouter
-from DB.database import engineconn
 from fastapi.responses import JSONResponse
-from CRUD.like import *
+from app.CRUD.like import *
 
-engine = engineconn()
-session_maker = engine.sessionmaker()
 router = APIRouter(prefix='/like')
-#user_id={user_id}/vod_id={id}/title={title}
-@router.post('/')
+@router.post('/{user_id}')
 def insert_review(user_id: int, id: int, title: str):
     result = insert_likeinfo(user_id, id, title)
     if result:
@@ -15,7 +11,7 @@ def insert_review(user_id: int, id: int, title: str):
     else:
         return JSONResponse(content={'response': 'ERROR INSERT REVIEW'}, status_code= 400)
 
-@router.delete('/')
+@router.delete('/{user_id}')
 def update_review(user_id: int, id: int, title: str):
     result = delete_likeinfo(user_id, id, title)
     if result:

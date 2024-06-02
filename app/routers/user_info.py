@@ -1,12 +1,10 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
-from DB.database import engineconn
 from sqlalchemy import *
 from fastapi.responses import JSONResponse
-from CRUD.user_info import insert_userinfo, update_userinfo, delete_userinfo
-engine = engineconn()
-session_maker = engine.sessionmaker()
+from app.CRUD.user_info import insert_userinfo, update_userinfo, delete_userinfo
+
 router = APIRouter(prefix='/user')
 class User_info(BaseModel):
      SETTOP_NUM : str

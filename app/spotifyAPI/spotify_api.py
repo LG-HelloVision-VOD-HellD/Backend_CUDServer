@@ -1,8 +1,6 @@
 import urllib.parse
-import pkce
 import requests
 from datetime import datetime, timedelta
-from fastapi.responses import RedirectResponse
 import os
 import base64
 from dotenv import load_dotenv

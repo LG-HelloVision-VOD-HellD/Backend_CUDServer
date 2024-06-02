@@ -1,9 +1,9 @@
 from fastapi import Request
 from datetime import datetime
 from fastapi.responses import RedirectResponse,JSONResponse
-from spotify_api import use_refresh_token, get_auth_url, get_token_info
-from CRUD.spotify import *
-from routers.mainpage import get_deque
+from app.spotifyAPI.spotify_api import use_refresh_token, get_auth_url, get_token_info
+from app.CRUD.spotify import *
+from app.routers.mainpage import get_deque
 
 d = get_deque()
 

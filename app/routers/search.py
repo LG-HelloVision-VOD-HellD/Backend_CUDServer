@@ -1,8 +1,7 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 from fastapi.responses import JSONResponse
-from DB.models import VOD
-from DB.database import engineconn
+from app.DB.models import VOD
+from app.DB.database import engineconn
 from sqlalchemy import *
 engine = engineconn()
 session_maker = engine.sessionmaker()

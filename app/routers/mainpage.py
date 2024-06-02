@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from collections import deque
-from spotify_user import login
+from app.spotifyAPI.spotify_user import login
 router = APIRouter(prefix='/mainpage')
 d = deque()
 

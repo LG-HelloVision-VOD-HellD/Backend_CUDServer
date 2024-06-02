@@ -1,28 +1,19 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.responses import JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
-from spotify_user import login, handle_callback, refresh_access_token
-from lyrics_crawler import crawling_lyrics
-from datetime import datetime
-from spotify_api import get_playlist
-from predict_emotion import predict_emotion
+from app.spotifyAPI.spotify_user import handle_callback
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
-import requests
-from DB.database import engineconn
-from CRUD.spotify import *
-from routers.login import router as login_router
-from routers.user_info import router as userinfo_router
-from routers.mainpage import router as mainpage_router
-from routers.search import router as search_router
-from routers.like import router as like_router
-from routers.review import router as review_router
+from app.DB.database import engineconn
+from app.CRUD.spotify import *
+from app.routers.user_info import router as userinfo_router
+from app.routers.mainpage import router as mainpage_router
+from app.routers.search import router as search_router
+from app.routers.like import router as like_router
+from app.routers.review import router as review_router
 import uvicorn
-engine = engineconn()
-session_maker = engine.sessionmaker()
 
 
-dic = {'1':''}
 app = FastAPI()
 
 
@@ -36,7 +27,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(login_router)
 app.include_router(userinfo_router)
 app.include_router(mainpage_router)
 app.include_router(search_router)
