@@ -30,7 +30,7 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"], # 허용할 origin을 설정하세요
+    allow_origins=["*"], # 허용할 origin을 설정하세요
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -68,4 +68,4 @@ def refresh_token(request: Request):
     return refresh_access_token(request)
 '''
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='127.0.0.1', port=8000, reload=True)
+    uvicorn.run("main:app", host='127.0.0.1', port=80, reload=True)

@@ -34,11 +34,6 @@ def update_user(user_info: User_info, user_id: int):
         return JSONResponse(content={'error' : 'EMPTY_SIGNUP_ELEMENTS'}, status_code = 400)
     
 
-@router.get('/{user_id}')
-def read_userinfo(user_id: int):
-    #mongoDB
-    return 0
-
 @router.delete('/{user_id}')
 def delete_user(user_id: int):
     result = delete_userinfo(user_id)

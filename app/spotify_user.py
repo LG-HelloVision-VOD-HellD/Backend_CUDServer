@@ -1,10 +1,7 @@
 from fastapi import Request
 from datetime import datetime
 from fastapi.responses import RedirectResponse,JSONResponse
-from starlette.middleware.sessions import SessionMiddleware
 from spotify_api import use_refresh_token, get_auth_url, get_token_info
-import json
-from DB.models import SPOTIFY
 from CRUD.spotify import *
 from routers.mainpage import get_deque
 

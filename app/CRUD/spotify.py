@@ -5,15 +5,6 @@ import json
 engine = engineconn()
 session_maker = engine.sessionmaker()
 
-def check_Spotify_accesstoken(user_id: str) -> bool:
-    result = session_maker.execute(
-        select(USERS.SPOTIFY).where(USERS.USER_ID == user_id)
-    ).fetchone()
-
-    if result and result[0]:  # 액세스 토큰이 존재하는 경우
-        return True
-    else:
-        return False
 
 
 def insert_SpotifyInfo(user_id, access_token, refresh_token, expires_at):
@@ -25,54 +16,13 @@ def insert_SpotifyInfo(user_id, access_token, refresh_token, expires_at):
                 'USER_ID': int(user_id),
                 'ACCESS_TOKEN': access_token,
                 'REFRESH_TOKEN': refresh_token,
-                'EXPIRE_DATE': expires_at
+                'EXPIRE_DATE': expires_at,
+                'EMOTION': '분노, 상처'
             }
         ]
     )
     session_maker.commit()
-def select_SpotifyInfo(user_id):
-    info = session_maker.query(SPOTIFY).filter(SPOTIFY.USER_ID == user_id)
-    serialized_example = [item.to_dict() for item in info]
-    return serialized_example
 
-
-
-def select_Spotify_accesstoken(user_id):
-    access_token = session_maker.execute(
-        select(SPOTIFY.ACCESS_TOKEN).where(SPOTIFY.USER_ID == user_id)
-    )
-    return access_token
-
-def vodlist_match_useremotion(user_id) -> str:
-    # 사용자의 감정에 맞는 VOD 목록 검색
-    join_condition = MOVIES.EMOTION == SPOTIFY.EMOTION
-
-    subquery = session_maker.query(SPOTIFY.EMOTION).filter(SPOTIFY.USER_ID == user_id).scalar()
-
-    query = (
-        select(MOVIES.TITLE, MOVIES.MOVIE_ID, MOVIES.POSTER)
-        .where(MOVIES.EMOTION == subquery)
-        .select_from(join(MOVIES, SPOTIFY, join_condition))
-    )
-    vod_list = session_maker.execute(query).fetchall()
-
-    # 결과를 딕셔너리로 변환
-    formatted_results = []
-    for row in vod_list:
-        formatted_results.append({
-            'TITLE': row[0],
-            'VOD_ID': row[1],
-            'POSTER_URL': row[2]
-        })
-    data = {
-        'status' : True,
-        'response' : formatted_results
-    }
-
-    # JSON 직렬화
-    '''json_results = json.dumps(formatted_results)
-    print(json_results)'''
-    return data
 
 def update_refreshtoken(user_id, access_token, expires_at):
     session_maker.execute(
