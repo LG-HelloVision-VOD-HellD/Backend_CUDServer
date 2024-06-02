@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 from collections import deque
-from app.spotifyAPI.spotify_user import login
 router = APIRouter(prefix='/mainpage')
 d = deque()
 
 
 @router.post('/spotify/{user_id}') 
 async def spotify_list(user_id: str):
+    from app.spotifyAPI.spotify_user import login
     d.append(int(user_id))
     url = login()
     data = {'status': False, 'response': url} 
