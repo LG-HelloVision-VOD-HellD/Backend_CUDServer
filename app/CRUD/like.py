@@ -1,46 +1,45 @@
 from app.DB.database import engineconn
-from app.DB.models import LIKES, VOD
-from sqlalchemy import *
+from app.DB.models import LIKES
+from sqlalchemy import insert, delete
+from sqlalchemy.exc import OperationalError
+import time
 
 engine = engineconn()
-session_maker = engine.sessionmaker()
+session = engine.sessionmaker()
 
-def find_vodID(id, title):
+def insert_likeinfo(user_id: int, VOD_ID: int):
     try:
-        VOD_ID = session_maker.execute(
-            select(VOD.VOD_ID)
-            .where(VOD.CONTENT_ID == id and VOD.TITLE == title)
-        ).fetchall()
-        return VOD_ID[0][0]  
-    except:
-        return 0
-
-def insert_likeinfo(user_id: int, id: int, title: str):
-    try:
-        session_maker.execute(
+        session.execute(
             insert(LIKES),
             [
                 {
-                    "USER_ID" : user_id,
-                    "VOD_ID" : find_vodID(id, title),
+                    "USER_ID": user_id,
+                    "VOD_ID": VOD_ID,
                 }
-            ]    
+            ]
         )
-        session_maker.commit()
+        session.commit()
         return True
-    except:
-        return False
-    
+    except OperationalError as e:
+        if 'Lock wait timeout exceeded' in str(e):
+            time.sleep(2)  # 잠시 대기 후 재시도
+            return insert_likeinfo(user_id, VOD_ID)
+        else:
+            session.rollback()
+            return False
+    finally:
+        session.close()
 
-def delete_likeinfo(user_id: int, id: int, title: str):
-    
+def delete_likeinfo(user_id: int, VOD_ID: int):
     try:
-        VOD_ID = find_vodID(id, title)
-        session_maker.execute(
+        session.execute(
             delete(LIKES)
             .where(LIKES.VOD_ID == VOD_ID, LIKES.USER_ID == user_id)
         )
-        session_maker.commit()
+        session.commit()
         return True
     except:
+        session.rollback()
         return False
+    finally:
+        session.close()

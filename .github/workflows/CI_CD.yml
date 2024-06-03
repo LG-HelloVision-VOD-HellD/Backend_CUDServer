@@ -16,7 +16,7 @@ env:
   ECS_SERVICE: hellodyCUDServer  
   ECS_CLUSTER: hellodyCUDserver                 
   ECS_TASK_DEFINITION: ./task-definition.json
-  CONTAINER_NAME: hellody_cud
+  CONTAINER_NAME: hellodycud
 
 jobs:
   build:
@@ -35,13 +35,6 @@ jobs:
           echo "DATABASE_HOSTAME=${{secrets.DATABASE_HOSTAME}}" >> .env
           echo "DATABASE_PORT=${{secrets.DATABASE_PORT}}" >> .env
           echo "DATABASE_NAME=${{secrets.DATABASE_NAME}}" >> .env
-          echo "AWS_S3_ACCESS_KEY=${{secrets.AWS_S3_ACCESS_KEY}}" >> .env
-          echo "AWS_S3_SECRET_KEY=${{secrets.AWS_S3_SECRET_KEY}}" >> .env
-          echo "MONGO_USERNAME=${{secrets.MONGO_USERNAME}}" >> .env
-          echo "MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}}" >> .env
-          echo "MONGO_HOST=${{secrets.MONGO_HOST}}" >> .env
-          echo "MONGO_PORT=${{secrets.MONGO_PORT}}" >> .env
-          echo "MONGO_DB=${{secrets.MONGO_DB}}" >> .env
 
       - name: Python 3.10 설정
         uses: actions/setup-python@v4
@@ -59,7 +52,7 @@ jobs:
       - name: AWS 자격 증명 설정
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::730335352929:role/fastapicicid
+          role-to-assume: arn:aws:iam::730335352929:role/semincud
           role-session-name: sampleSessionName
           aws-region: ap-northeast-2
 

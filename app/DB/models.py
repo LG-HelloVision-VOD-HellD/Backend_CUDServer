@@ -30,9 +30,8 @@ class REVIEW(Base):
     VOD_ID = Column(INT, nullable = True)
     RATING = Column(INT, nullable = False)
     COMMENT = Column(VARCHAR(150), nullable = True)
-    REVIEW_WDATE = Column(DATE, nullable = True)
-    REVIEW_MDATE = Column(DATE, nullable = True)
-    POS_NEG = Column(SMALLINT, nullable = True)
+    W_DATE = Column(DATE, nullable = True)
+    M_DATE = Column(DATE, nullable = True)
 
 class SPOTIFY(Base):
     __tablename__ = "SPOTIFY"
