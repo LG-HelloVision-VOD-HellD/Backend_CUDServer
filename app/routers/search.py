@@ -5,9 +5,9 @@ from app.DB.database import engineconn
 from sqlalchemy import *
 engine = engineconn()
 session_maker = engine.sessionmaker()
-router = APIRouter(prefix='/search')
+'''router = APIRouter(prefix='/search')'''
 
-@router.get('/{keyword}')
+'''@router.get('/{keyword}')
 async def search(keyword: str):
     if keyword:
         vod_title_list = session_maker.execute(
@@ -38,4 +38,4 @@ async def search(keyword: str):
         result = {
             'check_response': 'error'
         }
-        return JSONResponse(result)
+        return JSONResponse(result)'''

@@ -69,7 +69,20 @@ def update_emotion(user_id, emotion):
     finally:
         session_maker.close()
 
-
+def delete_SpotifyInfo(user_id):
+    try:
+        session_maker.execute(
+            delete(SPOTIFY)
+            .where(SPOTIFY.USER_ID == user_id)
+        )
+        session_maker.commit()
+        return True
+    except:
+        session_maker.rollback()
+        return False
+    finally:
+        session_maker.close()
+        
 
 def update_spotify_status(user_id):
     try:

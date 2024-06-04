@@ -2,6 +2,9 @@ from app.DB.database import engineconn
 from app.DB.models import USERS
 from sqlalchemy import *
 from pydantic import BaseModel
+from app.CRUD.spotify import delete_SpotifyInfo
+from app.CRUD.like import delete_likeinfo_user
+from app.CRUD.review import delete_reviewinfo_user
 engine = engineconn()
 session_maker = engine.sessionmaker()
 
@@ -65,6 +68,9 @@ def update_userinfo(user_id, user_info : User_info):
      
 def delete_userinfo(user_id):
      try:
+          delete_SpotifyInfo(user_id)
+          delete_reviewinfo_user(user_id)
+          delete_likeinfo_user(user_id)
           if user_id:
                session_maker.execute(
                     delete(USERS)

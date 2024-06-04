@@ -43,3 +43,18 @@ def delete_likeinfo(user_id: int, VOD_ID: int):
         return False
     finally:
         session.close()
+
+
+def delete_likeinfo_user(user_id):
+    try:
+        session.execute(
+            delete(LIKES)
+            .where(LIKES.USER_ID == user_id)
+        )
+        session.commit()
+        return True
+    except:
+        session.rollback()
+        return False
+    finally:
+        session.close()

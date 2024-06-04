@@ -69,3 +69,18 @@ def delete_reviewinfo(review_id: int):
         return False
     finally:
         session_maker.close()
+
+def delete_reviewinfo_user(user_id: int):
+     
+    try:
+        session_maker.execute(
+            delete(REVIEW)
+            .where(REVIEW.USER_ID == user_id)
+        )
+        session_maker.commit()
+        return True
+    except:
+        session_maker.rollback()
+        return False
+    finally:
+        session_maker.close()

@@ -8,7 +8,7 @@ from app.DB.database import engineconn
 from app.CRUD.spotify import *
 from app.routers.user_info import router as userinfo_router
 from app.routers.mainpage import router as mainpage_router
-from app.routers.search import router as search_router
+'''from app.routers.search import router as search_router'''
 from app.routers.like import router as like_router
 from app.routers.review import router as review_router
 import uvicorn
@@ -29,7 +29,7 @@ app.add_middleware(
 
 app.include_router(userinfo_router)
 app.include_router(mainpage_router)
-app.include_router(search_router)
+'''app.include_router(search_router)'''
 app.include_router(review_router)
 app.include_router(like_router)
 

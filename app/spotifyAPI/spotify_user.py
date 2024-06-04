@@ -18,13 +18,14 @@ def login():
     return auth_url
 
 def handle_callback(request: Request):
+    user_id = d.popleft()
     if 'error' in request.query_params:
         return JSONResponse({"error": request.query_params['error']}) 
     if 'code' in request.query_params:
         token_info = get_token_info(request.query_params['code'])
         expires_at = datetime.now().timestamp() + token_info['expires_in']
         print(token_info)
-        user_id = d.popleft()
+        
         if insert_SpotifyInfo(user_id, token_info['access_token'], token_info['refresh_token'], expires_at):
             update_spotify_status(user_id)
             return JSONResponse(content='ok', status_code=200)
