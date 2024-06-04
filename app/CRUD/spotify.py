@@ -7,10 +7,10 @@ session_maker = engine.sessionmaker()
 
 
 
-def insert_SpotifyInfo(user_id, access_token, refresh_token, expires_at):
+async def insert_SpotifyInfo(user_id, access_token, refresh_token, expires_at):
     print(type(user_id), type(access_token), type(refresh_token), type(expires_at))
     try:    
-        session_maker.execute(
+        await session_maker.execute(
             insert(SPOTIFY),
             [
                 {
@@ -22,13 +22,13 @@ def insert_SpotifyInfo(user_id, access_token, refresh_token, expires_at):
                 }
             ]
         )
-        session_maker.commit()
+        await session_maker.commit()
         return True
     except:
-        session_maker.rollback()
+        await session_maker.rollback()
         return False
     finally:
-        session_maker.close()
+        await session_maker.close()
 
 def update_refreshtoken(user_id, access_token, expires_at):
     try:

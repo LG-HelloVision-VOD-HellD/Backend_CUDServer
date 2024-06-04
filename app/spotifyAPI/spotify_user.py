@@ -1,6 +1,6 @@
-from fastapi import Request
+from fastapi import Request, HTTPException
 from datetime import datetime
-from fastapi.responses import RedirectResponse,JSONResponse
+from fastapi.responses import RedirectResponse,JSONResponse,
 from app.spotifyAPI.spotify_api import use_refresh_token, get_auth_url, get_token_info
 from app.CRUD.spotify import *
 from app.routers.mainpage import get_deque
@@ -17,7 +17,7 @@ def login():
 
     return auth_url
 
-def handle_callback(request: Request):
+async def handle_callback(request: Request):
     if 'error' in request.query_params:
         return JSONResponse({"error": request.query_params['error']}) 
     if 'code' in request.query_params:
@@ -25,9 +25,11 @@ def handle_callback(request: Request):
         expires_at = datetime.now().timestamp() + token_info['expires_in']
         print(token_info)
         user_id = d.popleft()
-        insert_SpotifyInfo(user_id, token_info['access_token'], token_info['refresh_token'], expires_at)
-        update_spotify_status(user_id)
-        return JSONResponse(content='ok', status_code=200)
+        if await insert_SpotifyInfo(user_id, token_info['access_token'], token_info['refresh_token'], expires_at)
+            update_spotify_status(user_id)
+            return JSONResponse(content='ok', status_code=200)
+        else:
+            raise HTTPException(status_code=400, detail='error')
 
 def refresh_access_token(user_info:dict):
     
