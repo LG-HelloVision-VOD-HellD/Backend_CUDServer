@@ -49,7 +49,7 @@ async def index():
 
 @app.get('/callback')
 async def callback(request: Request):
-    return await handle_callback(request)
+    return handle_callback(request)
 
 
 

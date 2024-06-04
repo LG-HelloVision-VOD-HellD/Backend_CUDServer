@@ -1,16 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from collections import deque
+from app.CRUD.spotify import check_spotifystatus
 router = APIRouter(prefix='/mainpage')
 d = deque()
 
 
 @router.post('/spotify/{user_id}') 
 async def spotify_list(user_id: str):
-    from app.spotifyAPI.spotify_user import login
-    d.append(int(user_id))
-    url = login()
-    data = {'status': False, 'response': url} 
-    return data
+    if check_spotifystatus(user_id) is False:
+        from app.spotifyAPI.spotify_user import login
+        d.append(int(user_id))
+        url = login()
+        data = {'status': False, 'response': url} 
+        return data
+    else:
+        return HTTPException(status_code=400, detail='이미 연동된 사용자')
 
 
 
