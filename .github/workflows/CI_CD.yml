@@ -32,7 +32,7 @@ jobs:
           echo "CLIENT_SECRET=${{secrets.CLIENT_SECRET}}" >> .env
           echo "DATABASE_USERNAME=${{secrets.DATABASE_USERNAME}}" >> .env
           echo "DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}}" >> .env
-          echo "DATABASE_HOSTAME=${{secrets.DATABASE_HOSTAME}}" >> .env
+          echo "DATABASE_HOSTNAME=${{secrets.DATABASE_HOSTNAME}}" >> .env
           echo "DATABASE_PORT=${{secrets.DATABASE_PORT}}" >> .env
           echo "DATABASE_NAME=${{secrets.DATABASE_NAME}}" >> .env
 

@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 USERNAME = os.getenv("DATABASE_USERNAME")
 PASSWORD = os.getenv("DATABASE_PASSWORD")
-HOST = os.getenv("DATABASE_HOSTAME")
+HOST = os.getenv("DATABASE_HOSTNAME")
 PORT = os.getenv("DATABASE_PORT")
 DB = os.getenv("DATABASE_NAME")
 DB_URL = f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DB}'
