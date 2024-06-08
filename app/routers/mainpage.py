@@ -12,7 +12,7 @@ async def spotify_list(user_id: int):
         d.append(int(user_id))
         url = login()
         data = {'status': False, 'response': url} 
-        return 'data'
+        return data
     else:
         return HTTPException(status_code=400, detail='이미 연동된 사용자')
 
