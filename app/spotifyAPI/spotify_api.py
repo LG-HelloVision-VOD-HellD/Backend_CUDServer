@@ -1,8 +1,6 @@
 import urllib.parse
 import requests
-from datetime import datetime, timedelta
 import os
-import base64
 from dotenv import load_dotenv
 load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
