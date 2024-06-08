@@ -6,13 +6,13 @@ d = deque()
 
 
 @router.post('/spotify/{user_id}') 
-async def spotify_list(user_id: str):
+async def spotify_list(user_id: int):
     if check_spotifystatus(user_id) is False:
-        from app.spotifyAPI.spotify_user import login
-        d.append(int(user_id))
-        url = login()
-        data = {'status': False, 'response': url} 
-        return data
+        #from app.spotifyAPI.spotify_user import login
+        #d.append(int(user_id))
+        #url = login()
+        #data = {'status': False, 'response': url} 
+        return 'data'
     else:
         return HTTPException(status_code=400, detail='이미 연동된 사용자')
 
