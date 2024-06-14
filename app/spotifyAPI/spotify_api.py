@@ -6,7 +6,7 @@ load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
-REDIRECT_URI = 'http://hellodycud-264244293.ap-northeast-2.elb.amazonaws.com/callback'
+REDIRECT_URI = 'https://hellodycud-264244293.ap-northeast-2.elb.amazonaws.com/callback'
 #REDIRECT_URI = 'http://localhost:8000/callback'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
