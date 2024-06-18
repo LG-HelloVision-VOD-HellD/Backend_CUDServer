@@ -27,10 +27,11 @@ def handle_callback(request: Request):
         print(token_info)
         
         if insert_SpotifyInfo(user_id, token_info['access_token'], token_info['refresh_token'], expires_at):
-            update_spotify_status(user_id)
-            return JSONResponse(content='ok', status_code=200)
-        else:
-            raise HTTPException(status_code=400, detail='error')
+            try:
+                update_spotify_status(user_id)
+                return JSONResponse(content='ok', status_code=200)
+            except:
+                raise HTTPException(status_code=400, detail='error')
 
 def refresh_access_token(user_info:dict):
     
